@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infiniti Servizi — Struttura Organizzativa Target v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sidebar-bg: #1a1f2e;
+  --sidebar-text: #e8e8ec;
+  --sidebar-dim: #9a9bb0;
+  --sidebar-xdim: #6b7089;
+  --sidebar-accent: #93B4F5;
+  --sidebar-active-bg: rgba(147,180,245,0.12);
+  --sidebar-border: rgba(255,255,255,0.08);
+  --content-bg: #FFFFFF;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a5a;
+  --text-tertiary: #8a8a9a;
+  --border: #e5e5ea;
+  --border-light: #f0f0f4;
+  --blue: #185FA5; --blue-bg: #E6F1FB;
+  --red: #A32D2D; --red-bg: #FCEBEB;
+  --green: #0F6E56; --green-bg: #E1F5EE;
+  --amber: #854F0B; --amber-bg: #FAEEDA;
+  --violet: #534AB7; --violet-bg: #EEEDFE;
+  --teal: #0E7C86; --teal-bg: #E0F4F5;
+  --brand: #1a1f2e;
+  --sidebar-w: 220px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--content-bg);color:var(--text-primary);display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--sidebar-bg);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sidebar-logo{padding:20px 16px 16px;border-bottom:1px solid var(--sidebar-border)}
+.sidebar-logo .logo-row{display:flex;align-items:center;gap:10px}
+.sidebar-logo .logo-icon{width:32px;height:32px;border-radius:8px;background:rgba(147,180,245,0.12);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--sidebar-accent)}
+.sidebar-logo .logo-text{font-size:13px;font-weight:500;color:var(--sidebar-text);line-height:1.2}
+.sidebar-logo .logo-sub{font-size:10px;color:var(--sidebar-xdim);margin-top:1px}
+.sidebar-nav{flex:1;padding:12px 8px}
+.sidebar-label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--sidebar-xdim);padding:8px 10px 6px}
+.sidebar-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:12px;color:var(--sidebar-dim);cursor:pointer;transition:all 0.15s;user-select:none}
+.sidebar-item:hover{background:rgba(255,255,255,0.05)}
+.sidebar-item.active{background:var(--sidebar-active-bg);color:var(--sidebar-accent);font-weight:500}
+.sidebar-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--sidebar-border)}
+.sidebar-footer .version{font-size:9px;color:var(--sidebar-xdim)}
+.content{margin-left:var(--sidebar-w);flex:1;min-height:100vh}
+.content-header{padding:20px 32px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.content-header h1{font-size:20px;font-weight:500}
+.content-header .date{font-size:12px;color:var(--text-tertiary);margin-top:4px}
+.content-header .meta{font-size:11px;color:var(--text-tertiary);display:flex;align-items:center;gap:4px}
+.content-header .meta .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.subnav{display:flex;gap:0;padding:0 32px;margin-top:16px;border-bottom:1px solid var(--border);overflow-x:auto}
+.subnav-tab{padding:10px 16px;font-size:12px;color:var(--text-tertiary);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.subnav-tab:hover{color:var(--text-secondary)}
+.subnav-tab.active{color:var(--text-primary);font-weight:500;border-bottom-color:var(--blue)}
+.section{padding:24px 32px;display:none}
+.section.active{display:block}
+.section-intro{font-size:14px;color:var(--text-secondary);line-height:1.7;max-width:800px;margin-bottom:24px}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:24px}
+.info-card{border:0.5px solid var(--border);border-radius:8px;padding:14px 16px}
+.info-card.left-border{border-left:3px solid}
+.info-card .ic-label{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-tertiary);margin-bottom:6px}
+.info-card .ic-value{font-size:13px;color:var(--text-primary);line-height:1.5}
+.info-card .ic-number{font-size:24px;font-weight:500}
+.org-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:32px}
+.org-card{border:0.5px solid var(--border);border-radius:10px;overflow:hidden}
+.org-card-header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.org-card-header .dept-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+.org-card-header .dept-count{font-size:10px;color:var(--text-tertiary);background:var(--border-light);padding:2px 8px;border-radius:8px}
+.org-role{padding:12px 16px;border-top:0.5px solid var(--border-light)}
+.org-role .role-title{font-size:12px;font-weight:500}
+.org-role .role-type{font-size:10px;color:var(--text-tertiary);margin-top:2px}
+.org-role .role-report{font-size:10px;color:var(--text-tertiary);margin-top:2px}
+.ruolo-section{margin-bottom:32px}
+.ruolo-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer;user-select:none}
+.ruolo-header .chevron{font-size:10px;color:var(--text-tertiary);transition:transform 0.2s}
+.ruolo-header .chevron.open{transform:rotate(90deg)}
+.ruolo-header h3{font-size:15px;font-weight:500}
+.ruolo-header .tag{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:500}
+.ruolo-body{display:none;padding-left:22px}
+.ruolo-body.open{display:block}
+.ruolo-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.ruolo-meta-item .meta-label{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-tertiary);margin-bottom:4px}
+.ruolo-meta-item .meta-value{font-size:13px}
+.mansioni-group{margin-bottom:20px}
+.mansioni-group h4{font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-tertiary);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--border-light)}
+.mansione-item{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border-light);align-items:flex-start}
+.mansione-item:last-child{border-bottom:none}
+.mansione-item .m-dot{width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.mansione-item .m-text{font-size:13px;line-height:1.5}
+.mansione-item .m-detail{font-size:11px;color:var(--text-secondary);line-height:1.5;margin-top:2px}
+.flow-step{display:flex;gap:12px}
+.flow-step .step-line{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0}
+.flow-step .step-dot{width:8px;height:8px;border-radius:50%;border:2px solid;flex-shrink:0}
+.flow-step .step-connector{flex:1;width:1px;background:var(--border);margin:4px 0}
+.flow-step .step-content{padding-bottom:16px;flex:1}
+.flow-step .step-title{font-size:12px;font-weight:500}
+.flow-step .step-desc{font-size:11px;color:var(--text-secondary);line-height:1.5;margin-top:4px}
+.flow-step .step-who{font-size:10px;color:var(--text-tertiary);margin-top:4px;font-style:italic}
+.flow-step:last-child .step-connector{display:none}
+.criticita-banner{padding:14px 16px;border-radius:8px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.criticita-banner .cb-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.criticita-banner .cb-text{font-size:12px;line-height:1.6}
+.criticita-banner .cb-title{font-weight:500}
+.governance-phase{border:0.5px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.governance-phase h4{font-size:13px;font-weight:500;margin-bottom:8px}
+.governance-phase .phase-tag{font-size:9px;padding:2px 8px;border-radius:8px;font-weight:500;margin-left:8px}
+.governance-phase p{font-size:12px;color:var(--text-secondary);line-height:1.6}
+@media print{.sidebar{display:none}.content{margin-left:0}.subnav{display:none}.section{display:block!important}.ruolo-body{display:block!important}body{font-size:11px}.hamburger{display:none}}
+/* MOBILE */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;width:40px;height:40px;border-radius:10px;background:var(--sidebar-bg);border:none;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:18px;height:2px;background:var(--sidebar-accent);border-radius:1px;transition:all 0.2s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:90}
+.overlay.open{display:block}
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .sidebar{transform:translateX(-100%);transition:transform 0.25s ease;z-index:150}
+  .sidebar.open{transform:translateX(0)}
+  .content{margin-left:0}
+  .content-header{padding:60px 16px 0}
+  .content-header h1{font-size:17px}
+  .section{padding:16px}
+  .subnav{padding:0 16px;gap:0}
+  .subnav-tab{padding:8px 12px;font-size:11px}
+  .info-cards{grid-template-columns:1fr!important}
+  .org-grid{grid-template-columns:1fr!important}
+  .ruolo-meta{grid-template-columns:1fr!important}
+  .role-label,.role-select{flex:1!important;max-width:none!important}
+  .role-row{flex-wrap:wrap;gap:8px}
+  .role-note{flex:1 1 100%!important}
+  .mansione-item .m-detail{font-size:10px}
+  .governance-phase{padding:14px}
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+<div class="overlay" id="overlay" onclick="toggleMobileMenu()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo"><div class="logo-row"><div class="logo-icon">IS</div><div><div class="logo-text">Infiniti Servizi</div><div class="logo-sub">Struttura Organizzativa</div></div></div></div>
+  <div class="sidebar-nav">
+    <div class="sidebar-label">Documenti</div>
+    <div class="sidebar-item active" data-section="panoramica"><div class="dot" style="background:var(--sidebar-accent)"></div> Panoramica</div>
+    <div class="sidebar-item" data-section="organigramma"><div class="dot" style="background:var(--violet)"></div> Organigramma</div>
+    <div class="sidebar-label" style="margin-top:8px">Direzione e Staff</div>
+    <div class="sidebar-item" data-section="direttore"><div class="dot" style="background:var(--brand)"></div> Direttore Operativo</div>
+    <div class="sidebar-item" data-section="compliance"><div class="dot" style="background:var(--red)"></div> Compliance e Normativa</div>
+    <div class="sidebar-label" style="margin-top:8px">Reparti Operativi</div>
+    <div class="sidebar-item" data-section="paghe"><div class="dot" style="background:var(--blue)"></div> Reparto Paghe</div>
+    <div class="sidebar-item" data-section="assunzioni"><div class="dot" style="background:var(--amber)"></div> Reparto Assunzioni</div>
+    <div class="sidebar-item" data-section="amministrazione"><div class="dot" style="background:var(--green)"></div> Reparto Amministrazione</div>
+    <div class="sidebar-item" data-section="segreteria"><div class="dot" style="background:var(--teal)"></div> Segreteria / Front Office</div>
+    <div class="sidebar-item" data-section="sicurezza"><div class="dot" style="background:var(--violet)"></div> Reparto Sicurezza</div>
+    <div class="sidebar-item" data-section="commerciale"><div class="dot" style="background:#6B8E23"></div> Commerciale</div>
+    <div class="sidebar-item" data-section="catering"><div class="dot" style="background:#9B7A65"></div> Reparto Catering</div>
+    <div class="sidebar-label" style="margin-top:8px">Trasversali</div>
+    <div class="sidebar-item" data-section="procedure"><div class="dot" style="background:var(--text-tertiary)"></div> Flussi Operativi</div>
+    <div class="sidebar-item" data-section="governance"><div class="dot" style="background:var(--red)"></div> Governance Transitoria</div>
+  </div>
+  <div class="sidebar-footer"><div class="version">Versione 2.0 — Marzo 2026</div></div>
+</nav>
+
+<main class="content">
+  <div class="content-header">
+    <div><h1>Struttura Organizzativa Target</h1><div class="date">Infiniti Servizi S.r.l. — Marzo 2026</div></div>
+    <div class="meta"></div>
+  </div>
+
+  <!-- PANORAMICA -->
+  <div class="section active" id="panoramica">
+    <div class="subnav"><div class="subnav-tab active">Visione d'insieme</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Questo documento definisce come deve funzionare Infiniti Servizi: chi fa cosa, chi riporta a chi, come girano i flussi di lavoro. I ruoli sono definiti a prescindere da chi li ricopre. Le persone vengono assegnate ai ruoli con una matrice operativa separata.</div>
+
+      <div class="info-cards">
+        <div class="info-card left-border" style="border-left-color:var(--brand)"><div class="ic-label">Direzione Operativa</div><div class="ic-number">1</div><div class="ic-value">Direttore Operativo + Compliance</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--blue)"><div class="ic-label">Reparti Operativi</div><div class="ic-number">7</div><div class="ic-value">unità organizzative</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--green)"><div class="ic-label">Ruoli Codificati</div><div class="ic-number">23</div><div class="ic-value">posizioni con mansionario</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--violet)"><div class="ic-label">Flussi Operativi</div><div class="ic-number">5</div><div class="ic-value">procedure documentate</div></div>
+      </div>
+
+      <h3 style="font-size:15px;font-weight:500;margin-bottom:16px">Gerarchia</h3>
+      <div class="section-intro" style="margin-bottom:0">
+        <strong>Livello 0 — Presidenza</strong>: vertice decisionale. Decisioni strategiche, fee e tariffe clienti, relazioni istituzionali. L'Assistente di Presidenza riporta direttamente qui, fuori dalla catena operativa.<br><br>
+        <strong>Livello 1 — Direttore Operativo</strong>: gestione dell'intera operatività quotidiana. Tutti i responsabili di reparto riportano a lui. La funzione Compliance riporta al Direttore Operativo.<br><br>
+        <strong>Livello 2 — Responsabili di reparto</strong>: Paghe, Assunzioni, Amministrazione, Segreteria, Sicurezza, Commerciale, Catering.<br><br>
+        <strong>Livello 3 — Operativi Senior e Operativi</strong>: risorse assegnate ai reparti con mansioni codificate.
+      </div>
+
+      <div style="margin-top:24px">
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:16px">Principi</h3>
+        <div class="info-cards" style="grid-template-columns:1fr 1fr">
+          <div class="info-card"><div class="ic-label">Catena di comando chiara</div><div class="ic-value">Il Direttore Operativo è il punto di riferimento unico per tutti i responsabili. La Presidenza non si occupa dell'operatività quotidiana.</div></div>
+          <div class="info-card"><div class="ic-label">Assegnazione per cliente</div><div class="ic-value">Ogni operativo ha un portafoglio clienti stabile. Si rivede ogni trimestre. Almeno 2 operativi devono conoscere ogni cliente.</div></div>
+          <div class="info-card"><div class="ic-label">Numeri flessibili</div><div class="ic-value">Il numero di risorse per reparto dipende dai volumi. I range indicati sono un punto di partenza.</div></div>
+          <div class="info-card"><div class="ic-label">Le procedure vengono prima degli strumenti</div><div class="ic-value">Qui c'è scritto cosa si fa e come. Se poi si usa un gestionale, un foglio Excel o il telefono è un mezzo, non una condizione.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORGANIGRAMMA -->
+  <div class="section" id="organigramma">
+    <div class="subnav"><div class="subnav-tab active">Schema visuale</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Organigramma funzionale — ruoli previsti, non persone.</div>
+
+      <h3 style="font-size:13px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px">Presidenza</h3>
+      <div class="org-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:24px">
+        <div class="org-card" style="border-top:3px solid var(--brand)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--brand)">Presidenza</div></div>
+          <div class="org-role"><div class="role-title">Presidente</div><div class="role-type">Vertice decisionale</div></div>
+          <div class="org-role"><div class="role-title">Assistente di Presidenza</div><div class="role-type">Affari societari e supporto personale</div><div class="role-report">→ Presidenza (fuori dalla catena operativa)</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid var(--brand)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--brand)">Direzione Operativa</div></div>
+          <div class="org-role"><div class="role-title">Direttore Operativo</div><div class="role-type">Gestione dell'intera operatività</div><div class="role-report">→ Presidenza</div></div>
+          <div class="org-role"><div class="role-title">Responsabile Compliance</div><div class="role-type">Normativa del lavoro e adempimenti</div><div class="role-report">→ Direttore Operativo</div></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:13px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px">Reparti Operativi — riportano al Direttore Operativo</h3>
+      <div class="org-grid">
+        <div class="org-card" style="border-top:3px solid var(--blue)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--blue)">Paghe</div><div class="dept-count">da 5 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Operativo Senior</div><div class="role-type">1+ risorse</div></div>
+          <div class="org-role"><div class="role-title">Operativo</div><div class="role-type">in base ai volumi</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid var(--amber)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--amber)">Assunzioni</div><div class="dept-count">da 6 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Operativo Senior</div><div class="role-type">1 risorsa</div></div>
+          <div class="org-role"><div class="role-title">Operativo</div><div class="role-type">in base ai volumi</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid var(--green)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--green)">Amministrazione</div><div class="dept-count">da 8 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Op. Tesoreria</div><div class="role-type">2+ risorse</div></div>
+          <div class="org-role"><div class="role-title">Op. Fatturazione</div><div class="role-type">2+ risorse</div></div>
+          <div class="org-role"><div class="role-title">Op. Controllo</div><div class="role-type">1 risorsa</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid var(--teal)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--teal)">Segreteria / Desk</div><div class="dept-count">2 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile Desk</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Operativo Desk</div><div class="role-type">1 risorsa</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid var(--violet)">
+          <div class="org-card-header"><div class="dept-name" style="color:var(--violet)">Sicurezza</div><div class="dept-count">2 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Operativo</div><div class="role-type">1 risorsa</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid #6B8E23">
+          <div class="org-card-header"><div class="dept-name" style="color:#6B8E23">Commerciale</div><div class="dept-count">1-2 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+        </div>
+        <div class="org-card" style="border-top:3px solid #9B7A65">
+          <div class="org-card-header"><div class="dept-name" style="color:#9B7A65">Catering</div><div class="dept-count">da 3 risorse</div></div>
+          <div class="org-role"><div class="role-title">Responsabile</div><div class="role-report">→ Direttore Operativo</div></div>
+          <div class="org-role"><div class="role-title">Operativo</div><div class="role-type">2+ risorse</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRETTORE OPERATIVO -->
+  <div class="section" id="direttore">
+    <div class="subnav"><div class="subnav-tab active">Direttore Operativo</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Il Direttore Operativo è responsabile dell'intera operatività aziendale. Non è un facilitatore: è chi comanda la macchina. Tutti i responsabili di reparto riportano a lui. La Presidenza delega al Direttore la gestione quotidiana e interviene solo sulle decisioni strategiche, sulle fee/tariffe e sulle relazioni istituzionali.</div>
+
+      <div class="ruolo-section">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Direttore Operativo</h3><span class="tag" style="background:rgba(26,31,46,0.1);color:var(--brand)">Livello 1 — Direzione</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta">
+            <div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Presidenza</div></div>
+            <div class="ruolo-meta-item"><div class="meta-label">Coordina</div><div class="meta-value">Tutti i responsabili di reparto + Compliance</div></div>
+            <div class="ruolo-meta-item"><div class="meta-label">Autorità</div><div class="meta-value">Decisioni operative, assegnazione risorse, intervento su errori e anomalie</div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Gestione e supervisione</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Supervisione dell'intera operatività aziendale: tutti i responsabili riportano al Direttore</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Anticipazione dei problemi: monitoraggio proattivo di errori, ritardi e anomalie nei flussi operativi</div><div class="m-detail">Il Direttore non aspetta che i problemi arrivino — li cerca. Ha visibilità trasversale su tutti i reparti e interviene prima che un errore diventi una crisi.</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Ricezione dei report giornalieri dai responsabili di reparto su anomalie e decisioni non standard</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Decisione su tutte le questioni operative che i responsabili non possono risolvere autonomamente</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Garanzia della qualità del servizio erogato ai clienti</div></div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Coordinamento inter-reparto</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Supervisione dei flussi inter-reparto: Assunzioni → Paghe → Amministrazione → Liquidazione</div><div class="m-detail">Verifica che ogni passaggio avvenga nei tempi corretti e senza perdita di informazioni</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Onboarding dei nuovi clienti e coordinamento dell'assegnazione alle risorse</div><div class="m-detail">Il criterio di distribuzione del lavoro è definito dal Responsabile di ogni reparto (per cliente, per tipo di attività, o misto). Il Direttore si assicura che la distribuzione avvenga e sia equilibrata.</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Monitoraggio del carico di lavoro per reparto e ribilanciamento risorse</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Gestione dei rapporti con i clienti per preventivi e onboarding commerciale</div></div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Reporting</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Reportistica operativa periodica alla Presidenza sull'andamento dell'azienda</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--brand)"></div><div><div class="m-text">Segnalazione alla Presidenza delle sole questioni che richiedono decisione strategica o coinvolgono fee/tariffe</div></div></div>
+          </div>
+          <div class="info-cards">
+            <div class="info-card left-border" style="border-left-color:var(--brand)"><div class="ic-label">Non compete a questo ruolo</div><div class="ic-value">Decisioni su fee e tariffe clienti (restano alla Presidenza). Questioni personali della Presidente. Rapporti con notai/banche per affari societari (Assistente di Presidenza).</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLIANCE -->
+  <div class="section" id="compliance">
+    <div class="subnav"><div class="subnav-tab active">Responsabile Compliance</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Funzione tecnico-specialistica dedicata al rispetto delle normative del lavoro, alla gestione degli adempimenti fiscali annuali, e al rapporto con gli studi legali. Riporta al Direttore Operativo.</div>
+      <div class="ruolo-section">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Compliance e Normativa del Lavoro</h3><span class="tag" style="background:var(--red-bg);color:var(--red)">Riporta al Direttore Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta">
+            <div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div>
+            <div class="ruolo-meta-item"><div class="meta-label">Interagisce con</div><div class="meta-value">Studi legali, INAIL, INPS, Sindacati, Reparto Paghe, Reparto Assunzioni</div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Rapporti con studio legale per ispezioni, controversie e conciliazioni</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Rapporti con sindacati e gestione delle relazioni sindacali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Monitoraggio costante delle novità normative (diritto del lavoro, CCNL, circolari INPS/INAIL, rinnovi contrattuali)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Rapporti con istituti previdenziali e gestione scadenze</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Elaborazione dichiarazioni fiscali annuali: CU, Modello 770</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Elaborazione dichiarazioni INAIL (autoliquidazione)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Organizzazione del servizio CAF</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Supporto specialistico al Reparto Assunzioni per dimissioni, licenziamenti, trasformazioni contrattuali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--red)"></div><div><div class="m-text">Ricerca e studio di strategie per la gestione di nuovi CCNL e tipologie contrattuali</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGHE -->
+  <div class="section" id="paghe">
+    <div class="subnav">
+      <div class="subnav-tab active" data-sub="paghe-resp">Responsabile</div>
+      <div class="subnav-tab" data-sub="paghe-senior">Operativo Senior</div>
+      <div class="subnav-tab" data-sub="paghe-op">Operativo</div>
+      <div class="subnav-tab" data-sub="paghe-proc">Procedure</div>
+    </div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Fulcro del ciclo mensile. Riceve le presenze, le valida, elabora le bozze busta paga, gestisce il ciclo di approvazione col cliente, produce i cedolini definitivi. Ogni operativo ha un portafoglio di clienti stabile, assegnato dal Responsabile con revisione trimestrale.</div>
+
+      <div class="ruolo-section" data-subsection="paghe-resp">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Reparto Paghe</h3><span class="tag" style="background:var(--blue-bg);color:var(--blue)">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta">
+            <div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div>
+            <div class="ruolo-meta-item"><div class="meta-label">Coordina</div><div class="meta-value">Operativi Senior e Operativi Paghe</div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Coordinamento</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Assegnazione dei clienti agli operativi in base a complessità, volume e competenze</div><div class="m-detail">Portafoglio stabile con revisione trimestrale. Cross-training obbligatorio: almeno 2 operativi conoscono ogni cliente.</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Controllo qualità sui cedolini prima della trasmissione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Risoluzione dubbi e casistiche complesse</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Coordinamento con Reparto Assunzioni per nuovi inserimenti, cessazioni, modifiche contrattuali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Report giornaliero al Direttore Operativo su anomalie e decisioni non standard</div></div></div>
+          </div>
+          <div class="mansioni-group">
+            <h4>Attività operative</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Elaborazione cedolini per i clienti più complessi</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Verifica funzionamento dei programmi di elaborazione paghe</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Trasmissione dati al Reparto Amministrazione per la fatturazione</div></div></div>
+          </div>
+          <div class="info-cards"><div class="info-card left-border" style="border-left-color:var(--blue)"><div class="ic-label">Escalation</div><div class="ic-value">Direttore Operativo per problematiche con i clienti. Compliance per dubbi normativi.</div></div></div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="paghe-senior" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Senior Paghe</h3><span class="tag" style="background:var(--blue-bg);color:var(--blue)">Senior</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Paghe</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Elaborazione cedolini per clienti assegnati, incluse casistiche complesse</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Gestione rapporti con clienti per rilevazione e controllo presenze</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Elaborazione UniEmens, F24, note contabili e stampe fiscali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Gestione rapporti con dipendenti dei clienti (buste paga, ferie, TFR)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Backup del Responsabile in caso di assenza</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Supporto nella formazione degli operativi junior</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="paghe-op" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Paghe</h3><span class="tag" style="background:var(--blue-bg);color:var(--blue)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Paghe</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Elaborazione cedolini per clienti assegnati</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Gestione rapporti con clienti per rilevazione e controllo presenze</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Elaborazione UniEmens, F24, note contabili</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--blue)"></div><div><div class="m-text">Gestione rapporti con dipendenti dei clienti per chiarimenti</div></div></div>
+          </div>
+          <div class="info-cards"><div class="info-card left-border" style="border-left-color:var(--blue)"><div class="ic-label">Escalation</div><div class="ic-value">Responsabile per casistiche complesse o problematiche con i clienti</div></div></div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="paghe-proc" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Ciclo Mensile Paghe</h3></div>
+        <div class="ruolo-body open">
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--blue)"></div><div class="step-connector"></div></div><div class="step-content"><div class="step-title">1. Raccolta presenze</div><div class="step-desc">Il cliente invia le presenze mensili con ore giorno per giorno ed eventuale netto concordato.</div><div class="step-who">Cliente → Desk (se via telefono/email) → Reparto Paghe</div></div></div>
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--blue)"></div><div class="step-connector"></div></div><div class="step-content"><div class="step-title">2. Validazione presenze</div><div class="step-desc">L'operativo verifica festivi, straordinari, assenze, coerenza contrattuale. Se ci sono anomalie, le comunica al cliente. Se il dipendente ha ricevuto acconti, l'operativo ne tiene conto.</div><div class="step-who">Operativo Paghe assegnato al cliente</div></div></div>
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--blue)"></div><div class="step-connector"></div></div><div class="step-content"><div class="step-title">3. Elaborazione bozza busta paga</div><div class="step-desc">L'operativo elabora la bozza e la invia al cliente per approvazione.</div><div class="step-who">Operativo Paghe</div></div></div>
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--amber)"></div><div class="step-connector"></div></div><div class="step-content"><div class="step-title">4. Approvazione del cliente</div><div class="step-desc">Il cliente approva o rifiuta con motivazione. Se rifiutata, l'operativo corregge e reinvia. Ciclo fino ad approvazione.</div><div class="step-who">Cliente → Operativo Paghe</div></div></div>
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--green)"></div><div class="step-connector"></div></div><div class="step-content"><div class="step-title">5. Vidimazione e consegna cedolino</div><div class="step-desc">Cedolino definitivo vidimato e reso disponibile ai clienti.</div><div class="step-who">Operativo Paghe</div></div></div>
+          <div class="flow-step"><div class="step-line"><div class="step-dot" style="border-color:var(--blue)"></div></div><div class="step-content"><div class="step-title">6. Adempimenti mensili</div><div class="step-desc">UniEmens, F24, note contabili. Trasmissione dati all'Amministrazione per fatturazione.</div><div class="step-who">Ogni operativo per i propri clienti, con supervisione del Responsabile</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSUNZIONI -->
+  <div class="section" id="assunzioni">
+    <div class="subnav">
+      <div class="subnav-tab active" data-sub="ass-resp">Responsabile</div>
+      <div class="subnav-tab" data-sub="ass-senior">Operativo Senior</div>
+      <div class="subnav-tab" data-sub="ass-op">Operativo</div>
+    </div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Gestisce l'intero ciclo di vita del rapporto di lavoro e funziona anche come reparto di formazione per i nuovi dipendenti interni dell'azienda, che passano da qui per apprendere le basi operative prima di essere assegnati al reparto definitivo.</div>
+
+      <div class="ruolo-section" data-subsection="ass-resp">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Reparto Assunzioni</h3><span class="tag" style="background:var(--amber-bg);color:var(--amber)">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta">
+            <div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div>
+            <div class="ruolo-meta-item"><div class="meta-label">Coordina</div><div class="meta-value">Operativi Senior e Operativi Assunzioni</div></div>
+          </div>
+          <div class="mansioni-group"><h4>Coordinamento</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Coordinamento operativo e smistamento del lavoro del reparto</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Risoluzione problematiche operative e casistiche complesse</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Gestione dimissioni, trasformazioni e licenziamenti (in coordinamento con Compliance)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Monitoraggio scadenze contratti a termine e invio avvisi ai clienti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Formazione delle risorse junior del reparto</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Formazione e affiancamento dei nuovi dipendenti interni dell'azienda</div><div class="m-detail">Il reparto funziona come punto di ingresso formativo: i neo-assunti interni passano da qui per apprendere le basi operative prima di essere assegnati al reparto definitivo.</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Check giornaliero alle 16:00 sullo stato delle attività; assegnazione risorse di supporto se necessario</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Report giornaliero al Direttore Operativo su anomalie e stato del reparto</div></div></div>
+          </div>
+          <div class="mansioni-group"><h4>Attività operative</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Elaborazione assunzioni, nuovi contratti e proroghe</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Onboarding clienti: invio contratti di rete e documentazione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Verifica e inserimento assunzioni su UNIRETE e GIOTTO (intermittenti)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Comunicazioni ANPAL e invio PEC per intermittenti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Predisposizione e validazione contratti dipendenti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Raccolta e verifica dati dipendenti (residenza, IBAN, email)</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="ass-senior" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Senior Assunzioni</h3><span class="tag" style="background:var(--amber-bg);color:var(--amber)">Senior</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Assunzioni</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Elaborazione assunzioni, contratti e proroghe in piena autonomia</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Gestione dimissioni e trasformazioni contrattuali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Gestione rapporti con clienti per pratiche di assunzione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Verifica e inserimento su UNIRETE e GIOTTO, comunicazioni ANPAL</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Backup del Responsabile in caso di assenza</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="ass-op" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Assunzioni</h3><span class="tag" style="background:var(--amber-bg);color:var(--amber)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Assunzioni</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Elaborazione assunzioni, nuovi contratti e proroghe</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Gestione rapporti con clienti per pratiche di assunzione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Verifica e inserimento su UNIRETE e GIOTTO</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--amber)"></div><div><div class="m-text">Raccolta e verifica dati dipendenti</div></div></div>
+          </div>
+          <div class="info-cards"><div class="info-card left-border" style="border-left-color:var(--amber)"><div class="ic-label">Escalation</div><div class="ic-value">Responsabile per casistiche complesse o sovraccarico (entro le 16:00)</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMMINISTRAZIONE -->
+  <div class="section" id="amministrazione">
+    <div class="subnav">
+      <div class="subnav-tab active" data-sub="amm-resp">Responsabile</div>
+      <div class="subnav-tab" data-sub="amm-tes">Tesoreria</div>
+      <div class="subnav-tab" data-sub="amm-fatt">Fatturazione</div>
+      <div class="subnav-tab" data-sub="amm-ctrl">Controllo</div>
+    </div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Gestisce l'intera componente finanziaria. Organizzato in tre sotto-funzioni: Tesoreria (banche, bonifici, liquidazioni), Fatturazione (ciclo attivo, SDI) e Controllo (insoluti, reporting).</div>
+
+      <div class="ruolo-section" data-subsection="amm-resp">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Amministrazione</h3><span class="tag" style="background:var(--green-bg);color:var(--green)">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Coordinamento e supervisione di Tesoreria, Fatturazione e Controllo</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Gestione rapporti con il commercialista e trasmissione dati</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Gestione rapporti con le banche</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Gestione ferie e permessi del personale interno</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Report giornaliero al Direttore Operativo</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Segnalazione alla Presidenza di nuovi ingressi, contratti o modifiche alla rete</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="amm-tes" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Tesoreria</h3><span class="tag" style="background:var(--green-bg);color:var(--green)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Amministrazione</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Monitoraggio saldi giornalieri delle banche principali</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Lavorazione banche pagamenti in entrata (attività mattutina)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Trasferimento fondi alle retiste (attività mattutina)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Esecuzione bonifici per liquidazione stipendi giornalieri</div><div class="m-detail">Preparazione dei dati bancari necessari (IBAN, BIC/SWIFT, importi, causali) per l'esecuzione tramite home banking</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Pagamenti a fornitori e stipendi su scadenze programmate</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Registrazione distinte bancarie a conferma dell'avvenuta liquidazione</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="amm-fatt" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Fatturazione</h3><span class="tag" style="background:var(--green-bg);color:var(--green)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Amministrazione</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Fatturazione clienti e reti (chiusura entro il 10-11 del mese)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Calcolo commissioni e IVA</div><div class="m-detail">Commissioni = importo x percentuale retista (definita nell'anagrafica). IVA 22% sull'imponibile intero (importo + commissioni).</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Invio giornaliero fatture allo SDI</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Scarico e stampa fatture fornitori (solo se segnalate alla Direzione)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Coordinamento fatturazione facchinaggio e lavori extra</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="amm-ctrl" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Controllo e Reporting</h3><span class="tag" style="background:var(--green-bg);color:var(--green)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Amministrazione</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Gestione e controllo insoluti su base mensile, con report alla Direzione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Calcoli percentuali e uscite mensili</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Controllo percentuali collaboratori (da sottoporre alla Presidenza)</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--green)"></div><div><div class="m-text">Check fine periodo per fatture inevase e rapporto alla Direzione</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGRETERIA -->
+  <div class="section" id="segreteria">
+    <div class="subnav"><div class="subnav-tab active" data-sub="segr-resp">Responsabile Desk</div><div class="subnav-tab" data-sub="segr-op">Operativo</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Punto di ingresso per le comunicazioni dai clienti. Gestisce PEC, email centrale, smistamento ai reparti, e centralizzazione delle segnalazioni.</div>
+
+      <div class="ruolo-section" data-subsection="segr-resp">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Desk</h3><span class="tag" style="background:var(--teal-bg);color:var(--teal)">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Gestione PEC: controllo posta in arrivo e risposta in coordinamento con i reparti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Gestione email centrale: controllo, risposta, aggiornamento IBAN, smistamento ai reparti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Ricezione e smistamento delle segnalazioni dai clienti (telefono, email, altri canali)</div><div class="m-detail">Ogni richiesta viene registrata e instradata al reparto competente. Il desk è il punto di smistamento, indipendentemente dallo strumento utilizzato.</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Invio buste paga ai clienti e ai dipendenti</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="segr-op" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Desk</h3><span class="tag" style="background:var(--teal-bg);color:var(--teal)">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Desk</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Assistenza al Responsabile nelle attività di segreteria</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Gestione e smistamento email</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Invio buste paga ai clienti e ai dipendenti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--teal)"></div><div><div class="m-text">Sostituzione del Responsabile in caso di assenza</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SICUREZZA -->
+  <div class="section" id="sicurezza">
+    <div class="subnav"><div class="subnav-tab active">Responsabile + Operativo</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Adempimenti in materia di sicurezza sul lavoro. Funzione verticale con confini netti.</div>
+      <div class="ruolo-section">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Sicurezza</h3><span class="tag" style="background:var(--violet-bg);color:var(--violet)">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--violet)"></div><div><div class="m-text">Coordinamento e supervisione del reparto</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--violet)"></div><div><div class="m-text">Elaborazione DVR con professionisti esterni</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--violet)"></div><div><div class="m-text">Gestione attestati sicurezza, antincendio e HACCP</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--violet)"></div><div><div class="m-text">Gestione nomine RLS, RSPP e altre figure previste dal DVR</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:var(--violet)"></div><div><div class="m-text">Monitoraggio scadenze adempimenti sicurezza</div></div></div>
+          </div>
+          <div class="info-cards"><div class="info-card left-border" style="border-left-color:var(--violet)"><div class="ic-label">Non compete</div><div class="ic-value">Supervisione dell'ufficio, coordinamento di altri reparti, attività di catering</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMERCIALE -->
+  <div class="section" id="commerciale">
+    <div class="subnav"><div class="subnav-tab active">Responsabile</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Acquisizione clienti e gestione della relazione economica. Le fee e le tariffe vengono proposte dal Commerciale ma approvate dalla Presidenza. Le decisioni operative restano ai reparti.</div>
+      <div class="ruolo-section">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Commerciale</h3><span class="tag" style="background:rgba(107,142,35,0.12);color:#6B8E23">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:#6B8E23"></div><div><div class="m-text">Acquisizione e gestione nuovi clienti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#6B8E23"></div><div><div class="m-text">Gestione rapporti commerciali con clienti esistenti</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#6B8E23"></div><div><div class="m-text">Proposta di fee e tariffe alla Presidenza per approvazione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#6B8E23"></div><div><div class="m-text">Revisione e adeguamento periodico delle tariffe</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#6B8E23"></div><div><div class="m-text">Coordinamento con Reparto Catering per fornitura personale eventi</div></div></div>
+          </div>
+          <div class="info-cards"><div class="info-card left-border" style="border-left-color:#6B8E23"><div class="ic-label">Non compete</div><div class="ic-value">Decisioni operative trasversali (scelta professionisti, fornitori). Fee e tariffe proposte ma approvate dalla Presidenza.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATERING -->
+  <div class="section" id="catering">
+    <div class="subnav"><div class="subnav-tab active" data-sub="cat-resp">Responsabile</div><div class="subnav-tab" data-sub="cat-op">Operativo</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Coordinamento del personale catering presso entità di ristorazione e ricevimenti. Le pratiche amministrative seguono i canali standard dei reparti. Sia il responsabile che gli operativi hanno autonomia nell'acquisizione diretta di clienti.</div>
+
+      <div class="ruolo-section" data-subsection="cat-resp">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Responsabile Catering</h3><span class="tag" style="background:rgba(155,122,101,0.12);color:#9B7A65">Responsabile</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Direttore Operativo</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Coordinamento operativo del personale catering</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Acquisizione diretta di clienti e gestione rapporti con entità di ristorazione</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Organizzazione e assegnazione camerieri agli eventi</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Supervisione operativa sugli eventi</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Elaborazione riepiloghi e prospetti catering</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Interfaccia con i reparti tramite canali standard per pratiche amministrative</div><div class="m-detail">Assunzioni → Reparto Assunzioni. Buste paga → Reparto Paghe. Bonifici → Amministrazione.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ruolo-section" data-subsection="cat-op" style="display:none">
+        <div class="ruolo-header" onclick="toggleRuolo(this)"><span class="chevron open">▶</span><h3>Operativo Catering</h3><span class="tag" style="background:rgba(155,122,101,0.12);color:#9B7A65">Operativo</span></div>
+        <div class="ruolo-body open">
+          <div class="ruolo-meta"><div class="ruolo-meta-item"><div class="meta-label">Riporta a</div><div class="meta-value">Responsabile Catering</div></div></div>
+          <div class="mansioni-group"><h4>Mansioni</h4>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Coordinamento operativo del personale sugli eventi</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Acquisizione diretta di clienti e gestione rapporti con ristorazioni</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Gestione rapporti con camerieri e personale di sala</div></div></div>
+            <div class="mansione-item"><div class="m-dot" style="background:#9B7A65"></div><div><div class="m-text">Supporto organizzativo agli eventi</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCEDURE -->
+  <div class="section" id="procedure">
+    <div class="subnav"><div class="subnav-tab active">Riepilogo Flussi</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">I flussi operativi principali attraversano più reparti. Il Direttore Operativo vigila che non si blocchino.</div>
+      <div class="info-cards" style="grid-template-columns:1fr">
+        <div class="info-card left-border" style="border-left-color:var(--amber)"><div class="ic-label">Flusso 1 — Ciclo Assunzione</div><div class="ic-value">Richiesta cliente → Verifica documenti → Inserimento piattaforme → Predisposizione contratto → Firma → Attivazione → Assegnazione a operativo paghe</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">Segreteria → Assunzioni → Direttore Operativo → Paghe</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--blue)"><div class="ic-label">Flusso 2 — Ciclo Mensile Paghe</div><div class="ic-value">Invio presenze → Validazione → Bozza busta → Approvazione cliente (ciclo) → Vidimazione cedolino → Consegna</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">Segreteria → Paghe → Cliente → Paghe</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--green)"><div class="ic-label">Flusso 3 — Ciclo Fatturazione e Pagamento</div><div class="ic-value">Richiesta pagamento (anche acconto) → Generazione fattura → Pagamento retista → Registrazione incasso → Liquidazione stipendio</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">Cliente → Amministrazione/Fatturazione → Amministrazione/Tesoreria</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--red)"><div class="ic-label">Flusso 4 — Scadenze Contratti</div><div class="ic-value">Alert a 30gg → Reminder al cliente → Proroga o cessazione → Aggiornamento</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">Assunzioni → Cliente → Assunzioni (+ Compliance se cessazione complessa)</div></div>
+        <div class="info-card left-border" style="border-left-color:var(--teal)"><div class="ic-label">Flusso 5 — Comunicazioni e Segnalazioni</div><div class="ic-value">Richiesta dal cliente (telefono/email/altri canali) → Ricezione e registrazione dal desk → Smistamento al reparto → Lavorazione → Chiusura</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:6px">Segreteria/Desk → Reparto competente</div></div>
+      </div>
+      <div class="criticita-banner" style="background:var(--amber-bg)"><div class="cb-icon">⚡</div><div class="cb-text"><span class="cb-title">Principio chiave:</span> il flusso pagamento e il flusso buste paga sono paralleli e indipendenti. Un cliente può richiedere pagamento (anche acconto) senza buste validate. A fine mese, il ciclo presenze/cedolino va completato tenendo conto degli acconti già liquidati.</div></div>
+    </div>
+  </div>
+
+  <!-- GOVERNANCE TRANSITORIA -->
+  <div class="section" id="governance">
+    <div class="subnav"><div class="subnav-tab active">Fase transitoria</div></div>
+    <div style="padding-top:24px">
+      <div class="section-intro">Questa struttura non si implementa dall'oggi al domani. Il Direttore Operativo regola il proprio livello di intervento in base a come i reparti rispondono.</div>
+
+      <div class="governance-phase" style="border-left:3px solid var(--red)">
+        <h4>Fase 1 — Controllo diretto <span class="phase-tag" style="background:var(--red-bg);color:var(--red)">Primi 3-6 mesi</span></h4>
+        <p>I responsabili riportano tutto al Direttore: decisioni ordinarie, problemi, dubbi. Nulla parte senza che il Direttore lo sappia. Serve a capire dove le cose non funzionano e a correggere subito. Ogni responsabile fa il punto col Direttore a fine giornata, 15 minuti.</p>
+      </div>
+
+      <div class="governance-phase" style="border-left:3px solid var(--amber)">
+        <h4>Fase 2 — Riporto selettivo <span class="phase-tag" style="background:var(--amber-bg);color:var(--amber)">Mesi 6-12</span></h4>
+        <p>L'ordinario va avanti da solo secondo le procedure. I responsabili segnalano al Direttore solo quello che esce dai binari. Il punto giornaliero resta per i reparti che ancora fanno fatica, diventa settimanale per quelli che girano.</p>
+      </div>
+
+      <div class="governance-phase" style="border-left:3px solid var(--green)">
+        <h4>Fase 3 — Autonomia <span class="phase-tag" style="background:var(--green-bg);color:var(--green)">Dopo 12 mesi</span></h4>
+        <p>I responsabili gestiscono il reparto in autonomia. Il Direttore interviene sulle eccezioni e tiene d'occhio i numeri. La Presidenza riceve i report dal Direttore e interviene solo su fee, tariffe e questioni sue.</p>
+      </div>
+
+      <div class="criticita-banner" style="background:var(--amber-bg)"><div class="cb-icon">⚡</div><div class="cb-text"><span class="cb-title">I tempi non sono uguali per tutti.</span> Un reparto può passare alla fase 2 dopo tre mesi, un altro può restarci sei. Il Direttore decide reparto per reparto.</div></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function toggleMobileMenu(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+document.querySelectorAll('.sidebar-item').forEach(item=>{item.addEventListener('click',function(){const s=this.dataset.section;document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(s).classList.add('active');const sec=document.getElementById(s);const tabs=sec.querySelectorAll('.subnav-tab');if(tabs.length>0){tabs.forEach(t=>t.classList.remove('active'));tabs[0].classList.add('active');const subs=sec.querySelectorAll('[data-subsection]');subs.forEach(s=>s.style.display='none');if(tabs[0].dataset.sub){const f=sec.querySelector('[data-subsection="'+tabs[0].dataset.sub+'"]');if(f)f.style.display='block'}else{subs.forEach(s=>s.style.display='block')}}closeMobileMenu()})});
+document.querySelectorAll('.subnav-tab').forEach(tab=>{tab.addEventListener('click',function(){const p=this.closest('.section');p.querySelectorAll('.subnav-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');const sub=this.dataset.sub;if(sub){p.querySelectorAll('[data-subsection]').forEach(s=>s.style.display='none');const t=p.querySelector('[data-subsection="'+sub+'"]');if(t)t.style.display='block'}else{p.querySelectorAll('[data-subsection]').forEach(s=>s.style.display='block')}})});
+function toggleRuolo(el){const b=el.nextElementSibling;const c=el.querySelector('.chevron');b.classList.toggle('open');c.classList.toggle('open')}
+</script>
+</body>
+</html>
